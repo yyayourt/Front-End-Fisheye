@@ -6,16 +6,12 @@ function getPhotographerId() {
 
 async function getPhotographerData() {
     try {
-        const response = await fetch("./data/photographers.json");
+        const response = await fetch("./assets/data/photographers.json");
         const data = await response.json();
         const photographerId = parseInt(getPhotographerId());
 
         const photographer = data.photographers.find((p) => p.id === photographerId);
         const mediaList = data.media.filter((m) => m.photographerId === photographerId);
-
-        console.log(data);
-        console.log(photographer);
-        console.log(mediaList);
 
         return { photographer, mediaList };
     } catch (error) {
@@ -37,8 +33,8 @@ async function displayMediaGallery() {
 
     mediaList.forEach((media) => {
         const mediaModel = mediaTemplate(media);
-        const mediaCardDOM = mediaModel.getMediaCardDOM();
-        mediaGallery.appendChild(mediaCardDOM);
+        const mediaDOM = mediaModel.getUserCardsDOM();
+        mediaGallery.appendChild(mediaDOM);
     });
 }
 
@@ -46,5 +42,6 @@ async function init() {
     await getPhotographerData();
     await displayData();
     await displayMediaGallery();
+    initSort();
 }
 init();
