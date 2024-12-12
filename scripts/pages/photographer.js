@@ -1,22 +1,15 @@
-//Mettre le code JavaScript lié à la page photographer.html
+import { apiService } from "../services/services.js";
+import { initSort } from "../utils/sort.js";
+import { initLightbox } from "../components/modal.js";
+
 function getPhotographerId() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
 }
 
 async function getPhotographerData() {
-    try {
-        const response = await fetch("./assets/data/photographers.json");
-        const data = await response.json();
-        const photographerId = parseInt(getPhotographerId());
-
-        const photographer = data.photographers.find((p) => p.id === photographerId);
-        const mediaList = data.media.filter((m) => m.photographerId === photographerId);
-
-        return { photographer, mediaList };
-    } catch (error) {
-        console.log("erreur de la recupération de données:", error);
-    }
+    const photographerId = getPhotographerId();
+    return await apiService.getPhotographerById(photographerId);
 }
 
 async function displayData() {
@@ -42,6 +35,11 @@ async function init() {
     await getPhotographerData();
     await displayData();
     await displayMediaGallery();
+    const sortSection = sortTemplate();
+    const main = document.getElementById("main");
+    const mediaGallery = document.querySelector(".media-gallery");
+    main.insertBefore(sortSection.getDOM(), mediaGallery);
     initSort();
+    initLightbox();
 }
 init();

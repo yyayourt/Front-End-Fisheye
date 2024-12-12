@@ -1,12 +1,8 @@
+import { apiService } from "../services/services.js";
+
 async function getPhotographers() {
-    try {
-        const response = await fetch("./assets/data/photographers.json");
-        const json = await response.json();
-        return { photographers: json.photographers };
-    } catch {
-        console.error("Erreur de chargement des photographes");
-        return { photographers: [] };
-    }
+    const photographers = await apiService.getPhotographers();
+    return { photographers };
 }
 
 async function displayData(photographers) {
