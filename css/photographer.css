@@ -25,28 +25,28 @@
 }
 
 .photograph-info h2 {
-    font-size: 2.5rem;
+    font-size: 64px;
+    font-weight: 400;
     margin: 0;
 }
 
 .photograph-info .location {
-    font-size: 1.2rem;
+    font-size: 24px;
     color: #901c1c;
     margin: 0.5rem 0;
 }
 
 .photograph-info .tagline {
     font-size: 1.2rem;
-    font-style: italic;
     margin: 0;
 }
 
 .photograph-header img {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+    width: 200px;
+    height: 200px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 30px;
 }
 
 .contact_button {
@@ -108,7 +108,6 @@ form div {
     display: flex;
     flex-direction: column;
     width: 100%;
-    align-items: self-start;
     margin-bottom: 26px;
 }
 
@@ -137,7 +136,6 @@ form textarea {
 .media-card video {
     width: 100%;
     height: 350px;
-    object-fit: cover;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -149,18 +147,11 @@ form textarea {
     padding: 10px 0;
 }
 
-.media-title {
-    color: #901c1c;
-    margin: 0;
-    font-size: 1rem;
-}
-
 .likes {
     color: #901c1c;
     font-weight: bold;
-    display: flex;
-    align-items: center;
     gap: 5px;
+    cursor: pointer;
 }
 
 .likes i {
@@ -213,11 +204,10 @@ form textarea {
     background-color: #901c1c;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     font-size: 16px;
     font-weight: bold;
 }
@@ -228,12 +218,13 @@ form textarea {
     left: 0;
     width: 100%;
     background-color: #901c1c;
-    border-radius: 5px;
+    border-radius: 0 0 5px 5px;
     list-style: none;
     padding: 0;
     margin: 0;
     display: none;
     z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255);
 }
 
 .sort-options.active {
@@ -241,24 +232,15 @@ form textarea {
 }
 
 .sort-options li {
-    padding: 15px;
+    padding: 15px 0;
+    margin: 0 15px 0 15px;
     color: white;
     cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255);
-}
-
-.sort-options li:last-child {
-    border-bottom: none;
+    border-top: 1px solid rgba(255, 255, 255);
 }
 
 .sort-options li:hover {
     background-color: #651414;
-}
-
-@media screen and (max-width: 768px) {
-    .sort-container {
-        margin: 20px 20px;
-    }
 }
 
 .lightbox-modal {
@@ -290,10 +272,6 @@ form textarea {
 
 .media-container {
     max-height: 85vh;
-    max-width: 85%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin: 0 100px;
 }
 
@@ -301,8 +279,14 @@ form textarea {
 .media-container video {
     max-height: 100%;
     max-width: 100%;
-    object-fit: contain;
     border-radius: 5px;
+}
+
+.media-title {
+    color: #901c1c;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 400;
 }
 
 .close-button {
@@ -336,8 +320,27 @@ form textarea {
     right: 0;
 }
 
-.media-title {
-    color: #901c1c;
-    font-size: 1.5em;
-    margin-top: 20px;
+.photographer-stats {
+    position: fixed;
+    bottom: 0;
+    right: 40px;
+    background-color: #db8876;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    border-radius: 5px 5px 0 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.total-likes {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.price-per-day {
+    font-weight: 500;
 }

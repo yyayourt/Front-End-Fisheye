@@ -1,7 +1,6 @@
-export function createLightboxModal() {
-    const modal = document.createElement("div");
-    modal.className = "lightbox-modal";
-    modal.innerHTML = `
+function createLightboxModal() {
+    return (document.body.innerHTML += `
+     <div class="lightbox-modal">
         <div class="lightbox-content">
             <button class="close-button" aria-label="Fermer la modale">
                 <i class="fas fa-times"></i>
@@ -15,28 +14,20 @@ export function createLightboxModal() {
             </button>
             <p class="media-title"></p>
         </div>
-    `;
-    return modal;
+    </div>
+    `);
 }
 
-export function initLightbox() {
-    const modal = createLightboxModal();
-    document.body.appendChild(modal);
-
+function initLightbox(mediaElements) {
+    createLightboxModal();
+    const modal = document.querySelector(".lightbox-modal");
     let currentIndex = 0;
-    let mediaElements = [];
-
-    function updateMediaElements() {
-        mediaElements = Array.from(document.querySelectorAll(".media-card"));
-    }
+    let currentMedia;
+    const mediaContainer = modal.querySelector(".media-container");
+    const titleElement = modal.querySelector(".media-title");
 
     function showMedia(index) {
-        updateMediaElements();
         currentIndex = index;
-
-        const mediaContainer = modal.querySelector(".media-container");
-        const titleElement = modal.querySelector(".media-title");
-        const currentMedia = mediaElements[index];
 
         mediaContainer.innerHTML = "";
 
@@ -51,16 +42,13 @@ export function initLightbox() {
         titleElement.textContent = currentMedia.querySelector(".media-title").textContent;
     }
 
-    document.querySelector(".media-gallery").addEventListener("click", (e) => {
-        const mediaCard = e.target.closest(".media-card");
-        if (mediaCard) {
-            updateMediaElements();
-            const index = mediaElements.indexOf(mediaCard);
-            if (index !== -1) {
-                modal.classList.add("active");
-                showMedia(index);
-            }
-        }
+    document.querySelectorAll(".media-card img, .media-card video").forEach((mediaCardEl, index) => {
+        mediaCardEl.addEventListener("click", function (e) {
+            e.preventDefault();
+            currentMedia = this.closest(".media-card");
+            modal.classList.add("active");
+            showMedia(index);
+        });
     });
 
     modal.querySelector(".close-button").addEventListener("click", () => {
@@ -69,11 +57,13 @@ export function initLightbox() {
 
     modal.querySelector(".prev").addEventListener("click", () => {
         currentIndex = (currentIndex - 1 + mediaElements.length) % mediaElements.length;
+        currentMedia = mediaElements[currentIndex];
         showMedia(currentIndex);
     });
 
     modal.querySelector(".next").addEventListener("click", () => {
         currentIndex = (currentIndex + 1) % mediaElements.length;
+        currentMedia = mediaElements[currentIndex];
         showMedia(currentIndex);
     });
 }

@@ -83,7 +83,7 @@ function getPhotographer(photographerId) {
 }
 
 function mediaTemplate(media) {
-    const { id, photographerId, title, image, video, likes, date, price } = media;
+    const { photographerId, title, image, video, likes, date } = media;
 
     const photographerName = getPhotographer(photographerId);
     const mediaSource = image ? `assets/images/${photographerName}/${image}` : `assets/images/${photographerName}/${video}`;
@@ -93,6 +93,8 @@ function mediaTemplate(media) {
         const article = document.createElement("article");
         article.className = "media-card";
         article.setAttribute("data-date", date);
+        article.setAttribute("data-likes", likes);
+        article.setAttribute("data-title", title);
 
         if (isVideo) {
             const videoElement = document.createElement("video");
@@ -123,50 +125,4 @@ function mediaTemplate(media) {
         return article;
     }
     return { getUserCardsDOM };
-}
-
-function sortTemplate() {
-    function getDOM() {
-        const sortContainer = document.createElement("div");
-        sortContainer.className = "sort-container";
-
-        const label = document.createElement("label");
-        label.setAttribute("for", "sort-select");
-        label.textContent = "Trier par";
-
-        const customSelect = document.createElement("div");
-        customSelect.className = "custom-select";
-
-        const sortButton = document.createElement("button");
-        sortButton.className = "sort-button";
-        sortButton.setAttribute("aria-haspopup", "listbox");
-        sortButton.innerHTML = `Popularité <i class="fas fa-chevron-down"></i>`;
-
-        const sortOptions = document.createElement("ul");
-        sortOptions.className = "sort-options";
-        sortOptions.setAttribute("role", "listbox");
-
-        const options = [
-            { value: "popularity", text: "Popularité" },
-            { value: "date", text: "Date" },
-            { value: "title", text: "Titre" },
-        ];
-
-        options.forEach((option) => {
-            const li = document.createElement("li");
-            li.setAttribute("role", "option");
-            li.setAttribute("data-value", option.value);
-            li.textContent = option.text;
-            sortOptions.appendChild(li);
-        });
-
-        customSelect.appendChild(sortButton);
-        customSelect.appendChild(sortOptions);
-        sortContainer.appendChild(label);
-        sortContainer.appendChild(customSelect);
-
-        return sortContainer;
-    }
-
-    return { getDOM };
 }

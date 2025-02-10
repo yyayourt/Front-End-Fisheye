@@ -1,10 +1,3 @@
-import { apiService } from "../services/services.js";
-
-async function getPhotographers() {
-    const photographers = await apiService.getPhotographers();
-    return { photographers };
-}
-
 async function displayData(photographers) {
     const photographersSection = document.querySelector(".photographer_section");
 
@@ -16,8 +9,8 @@ async function displayData(photographers) {
 }
 
 async function init() {
-    // Récupère les datas des photographes
     const { photographers } = await getPhotographers();
+
     displayData(photographers);
 }
 

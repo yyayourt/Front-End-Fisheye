@@ -1,7 +1,3 @@
-import { apiService } from "../services/services.js";
-import { initSort } from "../utils/sort.js";
-import { initLightbox } from "../components/modal.js";
-
 function getPhotographerId() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
@@ -9,7 +5,7 @@ function getPhotographerId() {
 
 async function getPhotographerData() {
     const photographerId = getPhotographerId();
-    return await apiService.getPhotographerById(photographerId);
+    return await getPhotographerById(photographerId);
 }
 
 async function displayData() {
@@ -32,14 +28,19 @@ async function displayMediaGallery() {
 }
 
 async function init() {
-    await getPhotographerData();
+    const { photographer, mediaList } = await getPhotographerData();
     await displayData();
     await displayMediaGallery();
-    const sortSection = sortTemplate();
     const main = document.getElementById("main");
     const mediaGallery = document.querySelector(".media-gallery");
-    main.insertBefore(sortSection.getDOM(), mediaGallery);
+    main.insertBefore(creatDropdown(), mediaGallery);
+
+    main.appendChild(createPhotographerStats());
+    updatePhotographerStats(mediaList, photographer);
+
+    const mediaFiltre = sortGallery("popularity");
+    initLightbox(mediaFiltre);
     initSort();
-    initLightbox();
+    initLikes();
 }
 init();

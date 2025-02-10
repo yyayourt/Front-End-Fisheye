@@ -1,43 +1,12 @@
-export function initSort() {
-    const sortButton = document.querySelector(".sort-button");
-    const sortOptions = document.querySelector(".sort-options");
-    const options = document.querySelectorAll(".sort-options li");
-
-    sortButton.addEventListener("click", () => {
-        sortOptions.classList.toggle("active");
-        const isExpanded = sortOptions.classList.contains("active");
-        sortButton.setAttribute("aria-expanded", isExpanded);
-    });
-
-    options.forEach((option) => {
-        option.addEventListener("click", () => {
-            const value = option.dataset.value;
-            const text = option.textContent;
-
-            sortButton.innerHTML = `${text} <i class="fas fa-chevron-down"></i>`;
-
-            sortOptions.classList.remove("active");
-
-            sortGallery(value);
-        });
-    });
-
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest(".custom-select")) {
-            sortOptions.classList.remove("active");
-        }
-    });
-}
-
-export function sortGallery(sortType) {
+function sortGallery(sortType) {
     const mediaGallery = document.querySelector(".media-gallery");
     const mediaCards = Array.from(mediaGallery.getElementsByClassName("media-card"));
 
     mediaCards.sort((a, b) => {
         switch (sortType) {
             case "popularity":
-                const likesA = parseInt(a.querySelector(".likes").textContent);
-                const likesB = parseInt(b.querySelector(".likes").textContent);
+                const likesA = parseInt(a.getAttribute("data-likes"));
+                const likesB = parseInt(b.getAttribute("data-likes"));
                 return likesB - likesA;
 
             case "date":
@@ -46,8 +15,8 @@ export function sortGallery(sortType) {
                 return dateB - dateA;
 
             case "title":
-                const titleA = a.querySelector(".media-title").textContent.toLowerCase();
-                const titleB = b.querySelector(".media-title").textContent.toLowerCase();
+                const titleA = a.getAttribute("data-title").toLowerCase();
+                const titleB = b.getAttribute("data-title").toLowerCase();
                 return titleA.localeCompare(titleB);
 
             default:
@@ -55,6 +24,7 @@ export function sortGallery(sortType) {
         }
     });
 
-    mediaGallery.innerHTML = "";
     mediaCards.forEach((card) => mediaGallery.appendChild(card));
+
+    return mediaCards;
 }
